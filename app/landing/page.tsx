@@ -1,9 +1,11 @@
-import React from "react";
 import LandingLayout from "@/components/Landing/LandingLayout";
 
-const page = ({ searchParams }: { searchParams?: { redirect?: string } }) => {
-  const forceRedirectUrl = searchParams?.redirect || "/";
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: Promise<{ redirect?: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const forceRedirectUrl = resolvedSearchParams?.redirect || "/";
   return <LandingLayout forceRedirectUrl={forceRedirectUrl} />;
-};
-
-export default page;
+}

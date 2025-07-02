@@ -24,7 +24,7 @@ const GlobeIcon = () => (
   </svg>
 );
 
-const LandingLayout = ({
+const LandingLayout = async ({
   children,
   forceRedirectUrl,
 }: {

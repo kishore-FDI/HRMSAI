@@ -9,6 +9,9 @@ import {
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import ConvexClientProvider from "./ConvexClientProvider";
+import AddUserToDb from "@/lib/AddUserToDb";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,22 +35,38 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignUpButton>
-                <Button>Sign in</Button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          {children}
-        </body>
-      </html>
+      <ConvexClientProvider>
+        <AddUserToDb />
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <header className="flex justify-around items-center p-4 h-16 bg-black">
+              <Link
+                href="/"
+                className="text-black text-xl font-serif rounded-full bg-white p-1">
+                HA
+              </Link>
+              <span className="text-white text-xl font-serif">RemO.AI</span>
+              <SignedOut>
+                <SignUpButton>
+                  <Button>Sign in</Button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  fallback={
+                    <div
+                      className="size-7 bg-gray-600 animate-pulse rounded-full"
+                      aria-labelledby="Loading please wait.."
+                    />
+                  }
+                />
+              </SignedIn>
+            </header>
+            {children}
+          </body>
+        </html>
+      </ConvexClientProvider>
     </ClerkProvider>
   );
 }
