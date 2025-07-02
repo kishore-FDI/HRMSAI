@@ -1,9 +1,11 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+
 const isPublicRoute = createRouteMatcher(["/landing"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
+
   if (!isPublicRoute(req)) {
     if (!userId) {
       const redirectUrl = encodeURIComponent(
@@ -14,6 +16,7 @@ export default clerkMiddleware(async (auth, req) => {
       );
     }
   }
+
   return NextResponse.next();
 });
 
