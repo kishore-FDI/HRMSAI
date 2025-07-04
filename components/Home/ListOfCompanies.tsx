@@ -1,7 +1,12 @@
+"use client";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
 import { Globe } from "lucide-react";
 import React from "react";
 
 const ListOfCompanies = () => {
+  const messages = useQuery(api.companies.getForCurrentUser);
+  console.log(messages);
   const data = [
     {
       title: "hi",

@@ -11,13 +11,12 @@ export const updateOrInsertUser = mutation({
   handler: async (ctx, args) => {
     const existing = await ctx.db
       .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", args.clerkId))
+      .withIndex("by_emailId", (q) => q.eq("email", args.clerkId))
       .unique();
 
     if (!existing) {
       await ctx.db.insert("users", {
         email: args.email,
-        clerkId: args.clerkId,
         name: args.name,
         profilePic: args.profilePic,
         employements: [],
